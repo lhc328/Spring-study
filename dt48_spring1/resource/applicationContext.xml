@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+           <!-- 将一个类的对象创建过程交给spring容器
+           	class:指定类的具体路径
+           	id:唯一标识符
+            
+	<bean id="yellow1" class="cn.java.ioc1.YellowMouseWolf">	</bean>
+	-->
+	<!-- 
+		scope用来控制spring产生对象的方式，可为单例或多例
+		常用: singleton（单例） prototype（多例）默认为单例
+	 -->
+	<!--  
+	<bean id="dog" class="cn.java.singleioc2.Dog" scope="prototype">
+	</bean>
+	-->
+	<!-- 
+		init-method:指定初始化方法名，在构造方法之后执行
+		destroy-method:销毁方法，在我们调用的方法之后执行(当对象被销毁才执行)
+	 -->
+	<!-- <bean id="ji" class="cn.java.initAndDestroy.Ji" init-method="init" destroy-method="destroy"></bean>-->
+	
+	<!--  <import resource="cn/java/lazy4/duck.xml"/> -->
+	<import resource="cn/java/di5/Cat.xml"/>
+</beans>
