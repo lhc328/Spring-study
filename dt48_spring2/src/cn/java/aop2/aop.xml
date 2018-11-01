@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<!-- 
+		配置安全bean
+	 -->
+	<bean id="security" class="cn.java.aop2.Security"></bean>
+	
+	<!-- 配置核心业务bean -->
+	<bean id="bankServiceImpl" class="cn.java.aop2.BankServiceImpl"></bean>
+	
+	<!-- 配置日志bean -->
+	<bean id="riZhi" class="cn.java.aop2.RiZhi"></bean>
+	
+	<!-- 配置清除bean -->
+	<bean id="clean" class="cn.java.aop2.Clean"></bean>
+	
+	<!-- 配置返回值切面 -->
+	<bean id="receive" class="cn.java.aop2.Reiceve"></bean>
+	
+	<!-- 配置环绕 -->
+	<bean id="auth" class="cn.java.aop2.Auth"></bean>
+	
+	<!-- 异常处理 -->
+	<bean id="global" class="cn.java.aop2.Global"></bean>
+	
+	<!-- 配置aop -->
+	<aop:config>
+		<!-- 配置切入点 -->
+		<!-- <aop:pointcut expression="cn.java.aop2.BankServiceImpl.*" id="aaa"/> -->
+		<aop:pointcut expression="execution (* cn.java.aop2.BankServiceImpl.* (..))" id="aaa"/>
+		
+		<!-- 配置环绕 -->
+		<aop:aspect ref="auth" order="3">
+			<aop:around method="isUserExist" pointcut-ref="aaa" />
+		</aop:aspect>
+		
+		<!-- 配置切面 -->
+		<aop:aspect ref="security">
+			<!-- 
+				before aop 前置通知
+				method 通知方法名
+				pointcut-ref 切入点id
+			-->
+			<aop:before method="isSecurity" pointcut-ref="aaa"/>
+		</aop:aspect>
+		<!-- 配置日志切面 -->
+		<!-- order 越大越先执行 -->
+		<aop:aspect ref="riZhi" >
+			<!--  -->
+			<aop:after method="log" pointcut-ref="aaa"/>
+		</aop:aspect>
+		<!-- 配置clear -->
+		<aop:aspect ref="clean" >
+			<aop:after method="clearResource" pointcut-ref="aaa"/>
+		</aop:aspect>
+		
+		<!-- 配置返回通知 -->
+		<aop:aspect ref="receive">
+			<aop:after-returning method="printmoney" pointcut-ref="aaa" returning="money"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="global">
+			<aop:after-throwing method="handExpt" pointcut-ref="aaa" throwing="ex"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

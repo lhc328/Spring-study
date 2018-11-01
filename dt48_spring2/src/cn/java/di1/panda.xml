@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="smallpanda" class="cn.java.di1.Panda">
+		<property name="name" value="功夫熊猫"></property>
+		<property name="age" value="28"></property>
+	</bean>
+
+	<bean id="person" class="cn.java.di1.Person">
+		<property name="name" value="王二麻子"></property>
+		<property name="pet" ref="smallpanda"></property>
+		<property name="list">
+			<list>
+				<value>list1</value>
+				<value>中国</value>
+				<ref bean="smallpanda" />
+			</list>
+		</property>
+		<property name="set">
+			<set>
+				<value>set1</value>
+				<value>china</value>
+				<ref bean="smallpanda" />
+			</set>
+		</property>
+		<property name="map">
+			<map>
+				<entry key="name" value="李四"></entry>
+				<entry key="age" value="10"></entry>
+			</map>
+		</property>
+		<property name="props">
+			<props>
+				<prop key="driver">com.mysql.jdbc.Driver</prop>
+				<prop key="url">jdbc:oracle:@thin:localhost:1521:orc;</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
